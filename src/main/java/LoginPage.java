@@ -78,6 +78,10 @@ public class LoginPage extends Page {
 		return driver.getCurrentUrl().equals("https://demo.applitools.com/hackathonApp.html") ? new AppPage(driver) : null;
 	}
 
+	AppPage loginWithValidCredentials() {
+		return login("test", "test");
+	}
+
 	boolean warningIsDisplayed() {
 		return Page.isDisplayed(alertWarning);
 	}

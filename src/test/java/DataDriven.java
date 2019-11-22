@@ -12,7 +12,7 @@ import java.util.Collection;
 public class DataDriven extends WebBaseTests {
 
     @Parameters
-    public static Collection<Object[]> data() {
+    public static Collection<Object[]> testData() {
         return Arrays.asList(new Object[][] {
                 {"", "", "Both Username and Password must be present"}, {"qwe", "", "Password must be present"}, {"", "qwe", "Username must be present"}, {"qwe", "qwe", null}
         });

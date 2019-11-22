@@ -6,9 +6,10 @@ public class TableSort extends WebBaseTests {
 
     @Test
     public void checkSortingOfAmountColumn() {
-        page.loginPage().login("test","test");
-        Map<Double, String> tableContentBeforeSorting = page.appPage().getTransactionsTableContent();
-        Assert.assertTrue("Sorting of amount values is wrong", page.appPage().isAmountColumnSorted());
-        Assert.assertTrue("Table content after sorting is wrong", page.appPage().isTableContentCorrectAfterSorting(tableContentBeforeSorting));
+        AppPage appPage = page.loginPage().loginWithValidCredentials();
+        Map<Double, String> tableContentBeforeSorting = appPage.getTransactionsTableContent();
+        appPage.transactionsAmountHeader.click();
+        Assert.assertTrue("Sorting of amount values is wrong", appPage.isAmountColumnSorted());
+        Assert.assertTrue("Table content after sorting is wrong", appPage.isTableContentCorrectAfterSorting(tableContentBeforeSorting));
     }
 }

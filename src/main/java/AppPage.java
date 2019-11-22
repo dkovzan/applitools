@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,12 +19,32 @@ public class AppPage extends Page {
     private static final String transactionsRowsCssSel = "#transactionsTable>tbody>tr";
     private static final String transactionsAmountHeaderCssSel = "#amount";
     private static final String transactionAmountCellInRowCssSel = "td>span.text-danger, span.text-success";
+    private static final String canvasChartCssSel = "#canvas";
+    private static final String showDataForNextYearBtnCssSel = ".btn, .btn-warning";
+    private static final String compareExpensesBtnCssSel = "#showExpensesChart";
 
     @FindBy(css = transactionsRowsCssSel)
     List<WebElement> transactionsRows;
 
     @FindBy(css = transactionsAmountHeaderCssSel)
     WebElement transactionsAmountHeader;
+
+    @FindBy(css = canvasChartCssSel)
+    WebElement canvasChart;
+
+    @FindBy(css = showDataForNextYearBtnCssSel)
+    WebElement showDataForNextYearBtn;
+
+    @FindBy(css = compareExpensesBtnCssSel)
+    WebElement compareExpensesBtn;
+
+    List<Object> getChartData() {
+        appPage().waitVisibilityOf(canvasChart);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        //List<Object> months = (List<Object>) js.executeScript("return barChartData.labels;");
+        List<Object> test = (List<Object>) js.executeScript("return barChartData.datasets.map(x => [ x.label, x.data] );");
+        return test;
+    }
 
     Map<Double, String> getTransactionsTableContent() {
         Map<Double, String> table = new HashMap<Double, String>();
@@ -34,8 +55,6 @@ public class AppPage extends Page {
     }
 
     boolean isAmountColumnSorted() {
-
-        transactionsAmountHeader.click();
 
         double[] amounts = new double[transactionsRows.size()];
 
