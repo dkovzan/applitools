@@ -20,13 +20,7 @@ public class DataSet {
 
     @Override
     public String toString() {
-        return "DataSet{" +
-                "label='" + label + '\'' +
-                ", backgroundColor='" + backgroundColor + '\'' +
-                ", borderColor='" + borderColor + '\'' +
-                ", borderWidth=" + borderWidth +
-                ", data=" + data +
-                '}';
+        return "[" + label + ", " + backgroundColor + ", " + borderColor + ", " + borderWidth+ ", " + data + "]";
     }
 
     @Override

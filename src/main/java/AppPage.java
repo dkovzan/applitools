@@ -1,3 +1,4 @@
+import model.DataSet;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -38,11 +39,10 @@ public class AppPage extends Page {
     @FindBy(css = compareExpensesBtnCssSel)
     WebElement compareExpensesBtn;
 
-    List<Object> getChartData() {
+    List<DataSet> getChartData() {
         appPage().waitVisibilityOf(canvasChart);
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        //List<Object> months = (List<Object>) js.executeScript("return barChartData.labels;");
-        List<Object> test = (List<Object>) js.executeScript("return barChartData.datasets.map(x => [ x.label, x.data] );");
+        List<DataSet> test = (List<DataSet>) js.executeScript("return barChartData.datasets.map(x => [x.label, x.backgroundColor, x.borderColor, x.borderWidth, x.data]);");
         return test;
     }
 
