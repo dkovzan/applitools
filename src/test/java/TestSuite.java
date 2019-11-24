@@ -5,7 +5,9 @@ import org.junit.runners.Suite;
 @org.junit.runners.Suite.SuiteClasses( {
         UIElements.class,
         DataDriven.class,
-        TableSort.class
+        TableSort.class,
+		CanvasChart.class,
+		DynamicContent.class
 })
 public class TestSuite {
 }

@@ -39,7 +39,7 @@ public class Page {
 
 	public void waitVisibilityOf(WebElement element) {
 
-		if (!isDisplayed(element)) {
+		if (element == null || !isDisplayed(element)) {
 			wait.until(ExpectedConditions.visibilityOf(element));
 		}
 	}
@@ -54,11 +54,36 @@ public class Page {
 	}
 
 	static String getParentLinkUrl(WebElement element) {
-		return element.findElement(By.xpath("parent::a")).getAttribute("href");
+		try {
+			return element.findElement(By.xpath("parent::a")).getAttribute("href");
+		} catch (Exception ex) {
+			System.out.println("Exception occurs while searching web element: " + ex);
+			return null;
+		}
 	}
 
 	static String getChildLinkUrl(WebElement element) {
-		return element.findElement(By.xpath("a")).getAttribute("href");
+		try {
+			return element.findElement(By.xpath("a")).getAttribute("href");
+		} catch (Exception ex) {
+			System.out.println("Exception occurs while searching web element: " + ex);
+			return null;
+		}
+
+	}
+
+	static String getImageSource(WebElement element) {
+		return element != null ? element.getAttribute("src") : null;
+	}
+
+	static WebElement getChildImage(WebElement element) {
+		try {
+			return element.findElement(By.xpath("img"));
+		} catch (Exception ex) {
+			System.out.println("Exception occurs while searching web element: " + ex);
+			return null;
+		}
+
 	}
 
 	void moveToElement(WebElement element) {

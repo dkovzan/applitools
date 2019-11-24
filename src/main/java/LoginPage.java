@@ -75,7 +75,7 @@ public class LoginPage extends Page {
 		Page.enterText(username, usernameField);
 		Page.enterText(password, passwordField);
 		loginBtn.click();
-		return driver.getCurrentUrl().equals("https://demo.applitools.com/hackathonApp.html") ? new AppPage(driver) : null;
+		return driver.getCurrentUrl().startsWith(Util.appPageUrl) ? new AppPage(driver) : null;
 	}
 
 	AppPage loginWithValidCredentials() {

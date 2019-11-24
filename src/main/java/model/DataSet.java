@@ -4,23 +4,21 @@ import java.util.List;
 
 public class DataSet {
 
-    public DataSet(String label, String backgroundColor, String borderColor, Integer borderWidth, List<Integer> data) {
-        this.label = label;
-        this.backgroundColor = backgroundColor;
-        this.borderColor = borderColor;
-        this.borderWidth = borderWidth;
-        this.data = data;
-    }
-
     private String label;
     private String backgroundColor;
     private String borderColor;
-    private Integer borderWidth;
-    private List<Integer> data;
+    private Long borderWidth;
+    private List<Long> data;
 
     @Override
     public String toString() {
-        return "[" + label + ", " + backgroundColor + ", " + borderColor + ", " + borderWidth+ ", " + data + "]";
+        return "DataSet{" +
+                "label='" + label + '\'' +
+                ", backgroundColor='" + backgroundColor + '\'' +
+                ", borderColor='" + borderColor + '\'' +
+                ", borderWidth=" + borderWidth +
+                ", data=" + data +
+                '}';
     }
 
     @Override
@@ -72,19 +70,19 @@ public class DataSet {
         this.borderColor = borderColor;
     }
 
-    public Integer getBorderWidth() {
+    public Long getBorderWidth() {
         return borderWidth;
     }
 
-    public void setBorderWidth(Integer borderWidth) {
+    public void setBorderWidth(Long borderWidth) {
         this.borderWidth = borderWidth;
     }
 
-    public List<Integer> getData() {
+    public List<Long> getData() {
         return data;
     }
 
-    public void setData(List<Integer> data) {
+    public void setData(List<Long> data) {
         this.data = data;
     }
 }

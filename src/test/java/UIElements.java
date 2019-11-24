@@ -4,8 +4,6 @@ import org.openqa.selenium.By;
 
 public class UIElements extends WebBaseTests {
 
-	// Login Page UI Elements Test
-
 	@Test
 	public void titleIsCorrect() {
 		Assert.assertEquals("ACME demo app", driver.getTitle());
@@ -13,22 +11,22 @@ public class UIElements extends WebBaseTests {
 
 	@Test
 	public void logoIsDisplayed() {
-		Assert.assertTrue(page.loginPage().logo.isDisplayed());
+		Assert.assertTrue(Page.isDisplayed(page.loginPage().logo));
 	}
 
 	@Test
 	public void logoHasCorrectLink() {
-		Assert.assertEquals(host + "/index.html", Page.getChildLinkUrl(page.loginPage().logo));
+		Assert.assertEquals(Util.host + "/index.html", Page.getChildLinkUrl(page.loginPage().logo));
 	}
 
 	@Test
 	public void logoIconIsDisplayed() {
-		Assert.assertTrue(page.loginPage().logo.findElement(By.xpath("a/img")).isDisplayed());
+		Assert.assertTrue(Page.isDisplayed(page.loginPage().logo.findElement(By.xpath("a/img"))));
 	}
 
 	@Test
 	public void headerIsDisplayed() {
-		Assert.assertTrue(page.loginPage().header.isDisplayed());
+		Assert.assertTrue(Page.isDisplayed(page.loginPage().header));
 	}
 
 	@Test
@@ -38,7 +36,7 @@ public class UIElements extends WebBaseTests {
 
 	@Test
 	public void usernameLabelIsDisplayed() {
-		Assert.assertTrue(page.loginPage().usernameLabel.isDisplayed());
+		Assert.assertTrue(Page.isDisplayed(page.loginPage().usernameLabel));
 	}
 
 	@Test
@@ -48,7 +46,7 @@ public class UIElements extends WebBaseTests {
 
 	@Test
 	public void usernameFieldIsDisplayed() {
-		Assert.assertTrue(page.loginPage().usernameField.isDisplayed());
+		Assert.assertTrue(Page.isDisplayed(page.loginPage().usernameField));
 	}
 
 	@Test
@@ -58,12 +56,12 @@ public class UIElements extends WebBaseTests {
 
 	@Test
 	public void usernameIconIsDisplayed() {
-		Assert.assertTrue(page.loginPage().usernameIcon.isDisplayed());
+		Assert.assertTrue(Page.isDisplayed(page.loginPage().usernameIcon));
 	}
 
 	@Test
 	public void passwordLabelIsDisplayed() {
-		Assert.assertTrue(page.loginPage().passwordLabel.isDisplayed());
+		Assert.assertTrue(Page.isDisplayed(page.loginPage().passwordLabel));
 	}
 
 	@Test
@@ -73,12 +71,12 @@ public class UIElements extends WebBaseTests {
 
 	@Test
 	public void passwordFieldIsDisplayed() {
-		Assert.assertTrue(page.loginPage().passwordField.isDisplayed());
+		Assert.assertTrue(Page.isDisplayed(page.loginPage().passwordField));
 	}
 
 	@Test
 	public void passwordIconIsDisplayed() {
-		Assert.assertTrue(page.loginPage().passwordIcon.isDisplayed());
+		Assert.assertTrue(Page.isDisplayed(page.loginPage().passwordIcon));
 	}
 
 	@Test
@@ -98,7 +96,7 @@ public class UIElements extends WebBaseTests {
 
 	@Test
 	public void rememberMeCheckboxIsDisplayed() {
-		Assert.assertTrue(page.loginPage().rememberMeCheckbox.isDisplayed());
+		Assert.assertTrue(Page.isDisplayed(page.loginPage().rememberMeCheckbox));
 	}
 
 	@Test
@@ -108,7 +106,7 @@ public class UIElements extends WebBaseTests {
 
 	@Test
 	public void rememberMeLabelIsDisplayed() {
-		Assert.assertTrue(page.loginPage().rememberMeLabel.isDisplayed());
+		Assert.assertTrue(Page.isDisplayed(page.loginPage().rememberMeLabel));
 	}
 
 	@Test
@@ -118,31 +116,31 @@ public class UIElements extends WebBaseTests {
 
 	@Test
 	public void twitterIconIsDisplayed() {
-		Assert.assertTrue(page.loginPage().twitterIcon.isDisplayed());
+		Assert.assertTrue(Page.isDisplayed(page.loginPage().twitterIcon));
 	}
 
 	@Test
 	public void twitterIconHasCorrectLink() {
-		Assert.assertEquals(applicationUnderTest + "#", Page.getParentLinkUrl(page.loginPage().twitterIcon));
+		Assert.assertEquals(Util.loginPageUrl + "#", Page.getParentLinkUrl(page.loginPage().twitterIcon));
 	}
 
 	@Test
 	public void facebookIconIsDisplayed() {
-		Assert.assertTrue(page.loginPage().facebookIcon.isDisplayed());
+		Assert.assertTrue(Page.isDisplayed(page.loginPage().facebookIcon));
 	}
 
 	@Test
 	public void facebookIconHasCorrectLink() {
-		Assert.assertEquals(applicationUnderTest + "#", Page.getParentLinkUrl(page.loginPage().facebookIcon));
+		Assert.assertEquals(Util.loginPageUrl + "#", Page.getParentLinkUrl(page.loginPage().facebookIcon));
 	}
 
 	@Test
 	public void linkedinIconIsDisplayed() {
-		Assert.assertTrue(page.loginPage().linkedinIcon.isDisplayed());
+		Assert.assertTrue(Page.isDisplayed(page.loginPage().linkedinIcon));
 	}
 
 	@Test
 	public void linkedinIconHasCorrectLink() {
-		Assert.assertEquals(applicationUnderTest + "#", Page.getParentLinkUrl(page.loginPage().linkedinIcon));
+		Assert.assertEquals(Util.loginPageUrl + "#", Page.getParentLinkUrl(page.loginPage().linkedinIcon));
 	}
 }

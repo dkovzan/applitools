@@ -1,4 +1,5 @@
 import model.DataSet;
+import okhttp3.WebSocketListener;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -6,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -23,6 +25,8 @@ public class AppPage extends Page {
     private static final String canvasChartCssSel = "#canvas";
     private static final String showDataForNextYearBtnCssSel = ".btn, .btn-warning";
     private static final String compareExpensesBtnCssSel = "#showExpensesChart";
+    private static final String flashSaleXpath = "//div[@id='flashSale']";
+    private static final String flashSale2Xpath = "//div[@id='flashSale2']";
 
     @FindBy(css = transactionsRowsCssSel)
     List<WebElement> transactionsRows;
@@ -39,11 +43,38 @@ public class AppPage extends Page {
     @FindBy(css = compareExpensesBtnCssSel)
     WebElement compareExpensesBtn;
 
+    @FindBy(xpath = flashSaleXpath)
+	WebElement flashSaleElem;
+
+	@FindBy(xpath = flashSale2Xpath)
+	WebElement flashSale2Elem;
+
     List<DataSet> getChartData() {
         appPage().waitVisibilityOf(canvasChart);
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        List<DataSet> test = (List<DataSet>) js.executeScript("return barChartData.datasets.map(x => [x.label, x.backgroundColor, x.borderColor, x.borderWidth, x.data]);");
-        return test;
+
+        List<Map> t = (List<Map>) js.executeScript(
+                "return barChartData.datasets" +
+                        ".map(x => {return " +
+                        "{label: x.label, " +
+                        "backgroundColor: x.backgroundColor, " +
+                        "borderColor: x.borderColor, " +
+                        "borderWidth: x.borderWidth, " +
+                        "data: x.data}" +
+                        "});");
+        List<DataSet> dSet = new ArrayList<>();
+
+        for(Map item : t) {
+            DataSet ds = new DataSet();
+            ds.setLabel(item.get("label").toString());
+            ds.setBackgroundColor(item.get("backgroundColor").toString());
+            ds.setBorderColor(item.get("borderColor").toString());
+            ds.setBorderWidth(Long.valueOf(item.get("borderWidth").toString()));
+            ds.setData((List<Long>) item.get("data"));
+            dSet.add(ds);
+        }
+
+        return dSet;
     }
 
     Map<Double, String> getTransactionsTableContent() {
