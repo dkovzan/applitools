@@ -1,5 +1,6 @@
-#Intelij IDEA folder
+#Intelij IDEA folder and .iml file
 /.idea
+*.iml
 
 # Compiled class file
 *.class

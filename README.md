@@ -1,4 +1,4 @@
-# applitools
+# applitoolsTests
 Applitools hackaton
 
 **Preconditions:**
