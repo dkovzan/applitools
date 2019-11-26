@@ -7,26 +7,34 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pageObjects.LoginPage;
 import pageObjects.Page;
-import utils.Config;
 
+import java.io.FileInputStream;
+import java.util.Properties;
 import java.util.concurrent.TimeUnit;
+import java.io.File;
 
 public class WebBase {
 
-	protected WebDriver driver;
-	WebDriverWait wait;
-	protected Page page;
+	protected static WebDriver driver;
+	protected static WebDriverWait wait;
+	protected static Page page;
 
 	@Before
 	public void setUp() {
-		String projectPath = System.getProperty("user.dir");
-		System.setProperty("webdriver.chrome.driver", projectPath + Config.props.getProperty("chromeDriverPath"));
+		Properties props = System.getProperties();
+		try {
+			props.load(new FileInputStream(new File("resources/test.properties")));
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.exit(-1);
+		}
 		driver = new ChromeDriver();
 		driver.manage().window().setPosition(new Point(0, 0));
 		driver.manage().window().setSize(new Dimension(1024, 768));
 		driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-		driver.get(Config.loginPageUrl);
+		driver.get(LoginPage.Url);
 		wait = new WebDriverWait(driver, 10, 500);
 		page = new Page(driver, wait);
 	}

@@ -4,9 +4,17 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import pageObjects.Page;
-import utils.Config;
 
 public class UIElements extends WebBase {
+
+	private static String loginFormHeader = "Login Form";
+	private static String usernameLabel = "Username";
+	private static String usernameFieldPlaceholder = "Enter your username";
+	private static String passwordLabel = "Password";
+	private static String passwordFieldPlaceholder = "Enter you password";
+	private static String loginBtnName = "Log In";
+	private static String rememberMeLabel = "Remember Me";
+
 
 	@Test
 	public void logoIsDisplayed() {
@@ -25,7 +33,7 @@ public class UIElements extends WebBase {
 
 	@Test
 	public void headerTextIsCorrect() {
-		Assert.assertEquals("Login Form", page.loginPage().header.getText());
+		Assert.assertEquals(loginFormHeader, page.loginPage().header.getText());
 	}
 
 	@Test
@@ -35,7 +43,7 @@ public class UIElements extends WebBase {
 
 	@Test
 	public void usernameLabelTextIsCorrect() {
-		Assert.assertEquals("Username", page.loginPage().usernameLabel.getText());
+		Assert.assertEquals(usernameLabel, page.loginPage().usernameLabel.getText());
 	}
 
 	@Test
@@ -45,7 +53,7 @@ public class UIElements extends WebBase {
 
 	@Test
 	public void usernameFieldHasCorrectPlaceholder() {
-		Assert.assertEquals("Enter your username", Page.getPlaceholder(page.loginPage().usernameField));
+		Assert.assertEquals(usernameFieldPlaceholder, Page.getPlaceholder(page.loginPage().usernameField));
 	}
 
 	@Test
@@ -60,7 +68,7 @@ public class UIElements extends WebBase {
 
 	@Test
 	public void passwordLabelTextIsCorrect() {
-		Assert.assertEquals("Password", page.loginPage().passwordLabel.getText());
+		Assert.assertEquals(passwordLabel, page.loginPage().passwordLabel.getText());
 	}
 
 	@Test
@@ -75,7 +83,7 @@ public class UIElements extends WebBase {
 
 	@Test
 	public void passwordFieldHasCorrectPlaceholder() {
-		Assert.assertEquals("Enter your password", Page.getPlaceholder(page.loginPage().passwordField));
+		Assert.assertEquals(passwordFieldPlaceholder, Page.getPlaceholder(page.loginPage().passwordField));
 	}
 
 	@Test
@@ -85,7 +93,7 @@ public class UIElements extends WebBase {
 
 	@Test
 	public void loginBtnNameIsCorrect() {
-		Assert.assertEquals("Login button name is incorrect", "Log In", page.loginPage().loginBtn.getText());
+		Assert.assertEquals("Login button name is incorrect", loginBtnName, page.loginPage().loginBtn.getText());
 	}
 
 	@Test
@@ -105,7 +113,7 @@ public class UIElements extends WebBase {
 
 	@Test
 	public void rememberMeLabelTextIsCorrect() {
-		Assert.assertEquals("Remember Me", page.loginPage().rememberMeLabel.getText());
+		Assert.assertEquals(rememberMeLabel, page.loginPage().rememberMeLabel.getText());
 	}
 
 	@Test

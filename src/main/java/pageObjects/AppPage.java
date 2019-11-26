@@ -15,6 +15,8 @@ import java.util.List;
 
 public class AppPage extends Page {
 
+    public static final String Url = Host + System.getProperty("appPage");
+
     public AppPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);

@@ -4,9 +4,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import utils.Config;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LoginPage extends Page {
+
+	private static final Logger logger = LoggerFactory.getLogger(LoginPage.class);
+
+	public static final String Url = Host + System.getProperty("loginPage");
 
 	public LoginPage(WebDriver driver) {
 		super(driver);
@@ -78,7 +83,12 @@ public class LoginPage extends Page {
 		Page.enterText(username, usernameField);
 		Page.enterText(password, passwordField);
 		loginBtn.click();
-		return driver.getCurrentUrl().startsWith(Config.appPageUrl) ? new AppPage(driver) : null;
+		AppPage appPage = driver.getCurrentUrl().startsWith(AppPage.Url) ? new AppPage(driver) : null;
+		if (appPage != null)
+			logger.info("User " + username + " successfully logged in.");
+		else
+			logger.info("User is not logged in.");
+		return appPage;
 	}
 
 	public AppPage loginWithValidCredentials() {

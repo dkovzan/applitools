@@ -2,53 +2,52 @@ package applitoolsTests;
 
 import org.junit.Test;
 import pageObjects.AppPage;
-import utils.Config;
 
 public class VisualAITests extends ApplitoolsBase {
 
     //Login Page UI Elements Test
     @Test
     public void checkLoginPageUIElements() {
-        eyes.checkWindow(name.getMethodName());
+        eyesManager.validateWindow();
     }
 
     //Data-Driven Tests
     @Test
     public void loginWithEmptyCredentials() {
-        page.loginPage().login(null, null);
-        eyes.checkWindow(name.getMethodName());
+        page.loginPage().login("", "");
+        eyesManager.validateWindow();
     }
 
     @Test
     public void loginWithEmptyPass() {
-        page.loginPage().login("test", null);
-        eyes.checkWindow(name.getMethodName());
+        page.loginPage().login("test", "");
+        eyesManager.validateWindow();
     }
 
     @Test
     public void loginWithEmptyUsername() {
-        page.loginPage().login(null, "test");
-        eyes.checkWindow(name.getMethodName());
+        page.loginPage().login("", "test");
+        eyesManager.validateWindow();
     }
 
     @Test
     public void successfulLoginWithValidCredentials() {
         page.loginPage().loginWithValidCredentials();
-        eyes.checkWindow(name.getMethodName());
+        eyesManager.validateWindow();
     }
 
     //Table Sort Test
     @Test
     public void expensesTableIsCorrect() {
-        AppPage appPage  = page.loginPage().loginWithValidCredentials();
-        eyes.checkWindow(name.getMethodName());
+        page.loginPage().loginWithValidCredentials();
+        eyesManager.validateWindow();
     }
 
     @Test
     public void tableSortingByAmountIsCorrect() {
         AppPage appPage  = page.loginPage().loginWithValidCredentials();
         appPage.transactionsAmountHeader.click();
-        eyes.checkWindow(name.getMethodName());
+        eyesManager.validateWindow();
     }
 
     //Canvas Chart Test
@@ -56,7 +55,7 @@ public class VisualAITests extends ApplitoolsBase {
     public void canvasChart1718IsCorrect() {
         AppPage appPage  = page.loginPage().loginWithValidCredentials();
         appPage.compareExpensesBtn.click();
-        eyes.checkWindow(name.getMethodName());
+        eyesManager.validateWindow();
     }
 
     @Test
@@ -64,14 +63,14 @@ public class VisualAITests extends ApplitoolsBase {
         AppPage appPage = page.loginPage().loginWithValidCredentials();
         appPage.compareExpensesBtn.click();
         appPage.showDataForNextYearBtn.click();
-        eyes.checkWindow(name.getMethodName());
+        eyesManager.validateWindow();
     }
 
     //Dynamic Content Test
     @Test
     public void gifsAreDisplayed() {
-        driver.get(Config.loginPageWithAd);
-        AppPage appPage = page.loginPage().loginWithValidCredentials();
-        eyes.checkWindow(name.getMethodName());
+        driver.get(driver.getCurrentUrl() + "?showAd=true");
+        page.loginPage().loginWithValidCredentials();
+        eyesManager.validateWindow();
     }
 }
