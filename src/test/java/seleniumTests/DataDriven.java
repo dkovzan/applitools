@@ -14,28 +14,28 @@ import java.util.Collection;
 @RunWith(Parameterized.class)
 public class DataDriven extends WebBase {
 
-    @Parameters
-    public static Collection<Object[]> testData() {
-        return Arrays.asList(new Object[][] {
-                {"", "", "Both Username and Password must be present"}, {"qwe", "", "Password must be present"}, {"", "qwe", "Username must be present"}, {"qwe", "qwe", null}
-        });
-    }
+	@Parameters
+	public static Collection<Object[]> testData() {
+		return Arrays.asList(new Object[][] {
+				{"", "", "Both Username and Password must be present"}, {"qwe", "", "Password must be present"}, {"", "qwe", "Username must be present"}, {"qwe", "qwe", null}
+		});
+	}
 
-    @Parameter
-    public String username;
+	@Parameter
+	public String username;
 
-    @Parameter(1)
-    public String password;
+	@Parameter(1)
+	public String password;
 
-    @Parameter(2)
-    public String alertText;
+	@Parameter(2)
+	public String alertText;
 
-    @Test
-    public void checkLogin() {
-        AppPage appPage = page.loginPage().login(username, password);
-        if (appPage == null) {
-            Assert.assertTrue(page.loginPage().warningIsDisplayed());
-            Assert.assertEquals(alertText, page.loginPage().alertWarning.getText());
-        }
-    }
+	@Test
+	public void checkLogin() {
+		AppPage appPage = page.loginPage().login(username, password);
+		if (appPage == null) {
+			Assert.assertTrue("Warning is not displayed", page.loginPage().warningIsDisplayed());
+			Assert.assertEquals("Warning text is not correct", alertText, page.loginPage().alertWarning.getText());
+		}
+	}
 }

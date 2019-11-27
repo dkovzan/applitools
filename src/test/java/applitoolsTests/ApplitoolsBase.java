@@ -1,26 +1,31 @@
 package applitoolsTests;
 
-import org.junit.*;
-import org.junit.rules.TestName;
+import com.applitools.eyes.BatchInfo;
+import org.junit.Before;
+import org.junit.After;
+import org.junit.BeforeClass;
 import pageObjects.LoginPage;
 import seleniumTests.WebBase;
 
 public class ApplitoolsBase extends WebBase {
 
-    protected static EyesManager eyesManager;
+	static EyesManager eyesManager;
+	private static BatchInfo batch;
 
-    @Rule
-    public TestName name = new TestName();
+	@BeforeClass
+	public static void setBatch() {
+		batch = new BatchInfo("Hackathon");
+	}
 
-    @Before
-    public void initEyes() {
-        eyesManager = new EyesManager(driver, "demo.applitoolsTests.com");
-        eyesManager.setBatchName("Hackaton");
-        driver.get(LoginPage.Url);
-    }
+	@Before
+	public void initEyes() {
+		eyesManager = new EyesManager(driver, "demo.applitoolsTests.com");
+		eyesManager.setBatchName(batch);
+		driver.get(LoginPage.Url);
+	}
 
-    @After
-    public void applitoolsTearDown() {
-        eyesManager.abort();
-    }
+	@After
+	public void applitoolsTearDown() {
+		eyesManager.abort();
+	}
 }

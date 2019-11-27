@@ -13,7 +13,7 @@ public class LoginPage extends Page {
 
 	public static final String Url = Host + System.getProperty("loginPage");
 
-	public LoginPage(WebDriver driver) {
+	LoginPage(WebDriver driver) {
 		super(driver);
 		PageFactory.initElements(driver, this);
 	}
@@ -83,7 +83,7 @@ public class LoginPage extends Page {
 		Page.enterText(username, usernameField);
 		Page.enterText(password, passwordField);
 		loginBtn.click();
-		AppPage appPage = driver.getCurrentUrl().startsWith(AppPage.Url) ? new AppPage(driver) : null;
+		AppPage appPage = Page.isDisplayed(appPage().userAvatarOfHeader) ? new AppPage(driver) : null;
 		if (appPage != null)
 			logger.info("User " + username + " successfully logged in.");
 		else

@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,137 +17,148 @@ import java.util.List;
 
 public class AppPage extends Page {
 
-    public static final String Url = Host + System.getProperty("appPage");
+	public static final String Url = Host + System.getProperty("appPage");
 
-    public AppPage(WebDriver driver) {
-        super(driver);
-        PageFactory.initElements(driver, this);
-    }
+	AppPage(WebDriver driver) {
+		super(driver);
+		PageFactory.initElements(driver, this);
+	}
 
-    private static final String transactionsRowsCssSel = "#transactionsTable>tbody>tr";
-    private static final String transactionsAmountHeaderCssSel = "#amount";
-    private static final String transactionAmountCellInRowCssSel = "td>span.text-danger, span.text-success";
-    private static final String canvasChartCssSel = "#canvas";
-    private static final String showDataForNextYearBtnCssSel = ".btn, .btn-warning";
-    private static final String compareExpensesBtnCssSel = "#showExpensesChart";
-    private static final String flashSaleXpath = "//div[@id='flashSale']";
-    private static final String flashSale2Xpath = "//div[@id='flashSale2']";
+	private static final Logger logger = LoggerFactory.getLogger(AppPage.class);
 
-    @FindBy(css = transactionsRowsCssSel)
-    public List<WebElement> transactionsRows;
+	private static final String transactionsTableCssSel = "#transactionsTable";
+	private static final String transactionsRowsCssSel = transactionsTableCssSel + ">tbody>tr";
+	private static final String transactionsAmountHeaderCssSel = "#amount";
+	private static final String transactionAmountCellInRowCssSel = "td>span.text-danger, span.text-success";
+	private static final String canvasChartCssSel = "#canvas";
+	private static final String showDataForNextYearBtnCssSel = ".btn, .btn-warning";
+	private static final String compareExpensesBtnCssSel = "#showExpensesChart";
+	private static final String flashSaleXpath = "//div[@id='flashSale']";
+	private static final String flashSale2Xpath = "//div[@id='flashSale2']";
+	private static final String userAvatarOfHeaderXpath = "//div[@class='logged-user-w']/div/div/img";
 
-    @FindBy(css = transactionsAmountHeaderCssSel)
-    public WebElement transactionsAmountHeader;
+	@FindBy(css = transactionsRowsCssSel)
+	public List<WebElement> transactionsRows;
 
-    @FindBy(css = canvasChartCssSel)
-    public WebElement canvasChart;
+	@FindBy(css = transactionsAmountHeaderCssSel)
+	public WebElement transactionsAmountHeader;
 
-    @FindBy(css = showDataForNextYearBtnCssSel)
-    public WebElement showDataForNextYearBtn;
+	@FindBy(css = canvasChartCssSel)
+	public WebElement canvasChart;
 
-    @FindBy(css = compareExpensesBtnCssSel)
-    public WebElement compareExpensesBtn;
+	@FindBy(css = showDataForNextYearBtnCssSel)
+	public WebElement showDataForNextYearBtn;
 
-    @FindBy(xpath = flashSaleXpath)
-    public WebElement flashSaleElem;
+	@FindBy(css = compareExpensesBtnCssSel)
+	public WebElement compareExpensesBtn;
+
+	@FindBy(xpath = flashSaleXpath)
+	public WebElement flashSaleElem;
 
 	@FindBy(xpath = flashSale2Xpath)
-    public WebElement flashSale2Elem;
+	public WebElement flashSale2Elem;
 
-    public List<DataSet> getChartData() {
-        appPage().waitVisibilityOf(canvasChart);
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+	@FindBy(xpath = userAvatarOfHeaderXpath)
+	WebElement userAvatarOfHeader;
 
-        List<Map> t = (List<Map>) js.executeScript(
-                "return barChartData.datasets" +
-                        ".map(x => {return " +
-                        "{label: x.label, " +
-                        "backgroundColor: x.backgroundColor, " +
-                        "borderColor: x.borderColor, " +
-                        "borderWidth: x.borderWidth, " +
-                        "data: x.data}" +
-                        "});");
-        List<DataSet> dSet = new ArrayList<>();
+	public By getCanvasChartLocator() {
+		return By.cssSelector(canvasChartCssSel);
+	}
 
-        for(Map item : t) {
-            DataSet ds = new DataSet();
-            ds.setLabel(item.get("label").toString());
-            ds.setBackgroundColor(item.get("backgroundColor").toString());
-            ds.setBorderColor(item.get("borderColor").toString());
-            ds.setBorderWidth(Long.valueOf(item.get("borderWidth").toString()));
-            ds.setData((List<Long>) item.get("data"));
-            dSet.add(ds);
-        }
+	public By getExpensesTableLocator() {
+		return By.cssSelector(transactionsTableCssSel);
+	}
 
-        return dSet;
-    }
+	public List<DataSet> getChartData() {
+		appPage().waitVisibilityOf(canvasChart);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
 
-    public Map<Double, String> getTransactionsTableContent() {
-        Map<Double, String> table = new HashMap<Double, String>();
-        for (WebElement row : transactionsRows) {
-            table.put(getAmountCellValue(row), row.getText());
-        }
-        return table;
-    }
+		List<Map> dataSetMaps = new ArrayList<>();
 
-    public boolean isAmountColumnSorted() {
+		try {
+			dataSetMaps = (List<Map>) js.executeScript(
+					"return barChartData.datasets" +
+							".map(x => {return " +
+							"{label: x.label, " +
+							"backgroundColor: x.backgroundColor, " +
+							"borderColor: x.borderColor, " +
+							"borderWidth: x.borderWidth, " +
+							"data: x.data}" +
+							"});");
+		} catch (Exception ex) {
+			logger.warn("Exception occured while extracting dataSets:\n", ex);
+		}
 
-        double[] amounts = new double[transactionsRows.size()];
+		if (dataSetMaps.isEmpty())
+			logger.warn("Data sets are not received from javascript");
 
-        for (int i = 0; i < transactionsRows.size(); i++) {
+		List<DataSet> dSet = new ArrayList<>();
 
-            if (!Page.isDisplayed(transactionsRows.get(i)))
-                moveToElement(transactionsRows.get(i));
+		for(Map item : dataSetMaps) {
+			DataSet ds = new DataSet();
+			ds.setLabel(item.get("label").toString());
+			ds.setBackgroundColor(item.get("backgroundColor").toString());
+			ds.setBorderColor(item.get("borderColor").toString());
+			ds.setBorderWidth(Long.valueOf(item.get("borderWidth").toString()));
+			ds.setData((List<Long>) item.get("data"));
+			dSet.add(ds);
+		}
 
-            double amount = getAmountCellValue(transactionsRows.get(i));
-            amounts[i] = amount;
-        }
-        return isArraySorted(amounts);
-    }
+		return dSet;
+	}
 
-    public boolean isTableContentCorrectAfterSorting(Map<Double, String> tableBeforeSorting) {
-        boolean result = true;
+	public Map<Double, String> getTransactionsTableContent() {
+		Map<Double, String> table = new HashMap<>();
+		for (WebElement row : transactionsRows) {
+			table.put(getAmountCellValue(row), row.getText());
+		}
+		return table;
+	}
 
-        Map<Double, String> tableAfterSorting = getTransactionsTableContent();
+	public boolean isAmountColumnSorted() {
 
-        for(Map.Entry<Double, String> entry : tableAfterSorting.entrySet()) {
-            for (Double amount : tableBeforeSorting.keySet()) {
-                if (!tableAfterSorting.get(amount).equals(tableBeforeSorting.get(amount))) {
-                    result = false;
-                }
-            }
-        }
-        return result;
-    }
+		double[] amounts = new double[transactionsRows.size()];
 
-    public static String getCanvasChartCssSel() {
-        return canvasChartCssSel;
-    }
+		for (int i = 0; i < transactionsRows.size(); i++) {
 
-    public static String getFlashSaleXpath() {
-        return flashSaleXpath;
-    }
+			if (!Page.isDisplayed(transactionsRows.get(i)))
+				moveToElement(transactionsRows.get(i));
 
-    public static String getFlashSale2Xpath() {
-        return flashSale2Xpath;
-    }
+			double amount = getAmountCellValue(transactionsRows.get(i));
+			amounts[i] = amount;
+		}
+		return isArraySorted(amounts);
+	}
 
-    private static double getAmountCellValue(WebElement amountCell) {
-        return Double.parseDouble(amountCell.findElement(By.cssSelector(transactionAmountCellInRowCssSel)).getText().trim().replaceAll("[ +USD,]", ""));
-    }
+	public boolean isTableContentCorrectAfterSorting(Map<Double, String> tableBeforeSorting) {
+		boolean result = true;
 
-    private boolean isArraySorted(double[] arr) {
-        return arraySortedOrNot(arr, arr.length) != 0;
-    }
+		Map<Double, String> tableAfterSorting = getTransactionsTableContent();
 
-    private Integer arraySortedOrNot(double[] arr, int n) {
-        if (n == 1 || n == 0)
-            return 1;
+		for (Double amount : tableBeforeSorting.keySet()) {
+			if (!tableAfterSorting.get(amount).equals(tableBeforeSorting.get(amount))) {
+				result = false;
+			}
+		}
+		return result;
+	}
 
-        if (arr[n - 1] < arr[n - 2])
-            return 0;
+	private static double getAmountCellValue(WebElement amountCell) {
+		return Double.parseDouble(amountCell.findElement(By.cssSelector(transactionAmountCellInRowCssSel)).getText().trim().replaceAll("[ +USD,]", ""));
+	}
 
-        return arraySortedOrNot(arr, n - 1);
-    }
+	private boolean isArraySorted(double[] arr) {
+		return arraySortedOrNot(arr, arr.length) != 0;
+	}
+
+	private Integer arraySortedOrNot(double[] arr, int n) {
+		if (n == 1 || n == 0)
+			return 1;
+
+		if (arr[n - 1] < arr[n - 2])
+			return 0;
+
+		return arraySortedOrNot(arr, n - 1);
+	}
 
 }

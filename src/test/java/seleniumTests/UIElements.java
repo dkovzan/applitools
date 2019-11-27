@@ -11,7 +11,7 @@ public class UIElements extends WebBase {
 	private static String usernameLabel = "Username";
 	private static String usernameFieldPlaceholder = "Enter your username";
 	private static String passwordLabel = "Password";
-	private static String passwordFieldPlaceholder = "Enter you password";
+	private static String passwordFieldPlaceholder = "Enter your password";
 	private static String loginBtnName = "Log In";
 	private static String rememberMeLabel = "Remember Me";
 
