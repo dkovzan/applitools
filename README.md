@@ -14,7 +14,7 @@ echo %JAVA_HOME%
 echo %MAVEN_HOME%
 ```
 3. Download and install Google Chrome browser v78.x.
-If any other, then place chromedriver in resources/driders/chromedriver folder and specify path to it in resources/test.properties file:<br>
+If any other, then place chromedriver in resources/drivers/chromedriver folder and specify path to it in resources/test.properties file:<br>
 ```webdriver.chrome.driver = path/to/chromedriver```
 
 # Steps to run:
