@@ -28,20 +28,20 @@ If any other, then place chromedriver in resources/driders/chromedriver folder a
 ```applitools.api.key=your-key-here```
 
 4. Specify in resources/test.properties file following values:<br>
- ```host=https://demo.applitools.com```
- default=https://demo.applitools.com.
-```loginPage=/hackathonV2.html``` 
-default for V2 = /hackathonV2.html, for V1 = /hackathon.html
+ ```host=https://demo.applitools.com```<br>
+ default=https://demo.applitools.com<br>
+```loginPage=/hackathonV2.html```<br>
+default for V2 = /hackathonV2.html, for V1 = /hackathon.html<br>
 
 5.1. For Linux specify:<br>
-```webdriver.chrome.driver=resources/drivers/chromedriver/chromedriver78Linux in resources/test.properties file```
+```webdriver.chrome.driver=resources/drivers/chromedriver/chromedriver78Linux in resources/test.properties file```<br>
 5.2. For Windows specify:<br>
-```webdriver.chrome.driver=resources/drivers/chromedriver/chromedriver78Win64.exe in resources/test.properties file```
+```webdriver.chrome.driver=resources/drivers/chromedriver/chromedriver78Win64.exe in resources/test.properties file```<br>
 
 6. Specify screen resolution in test.properties:<br>
-```screen.width=1024```
-default=1024
-```screen.height=768```
+```screen.width=1024```<br>
+default=1024<br>
+```screen.height=768```<br>
 default=768
 
 7. Run test framework:<br>
